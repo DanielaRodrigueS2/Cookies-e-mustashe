@@ -23,9 +23,16 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var reqs_total = 0;
+var contador = false;
 
 app.get('/', (req, res) => {
-    res.render('index', { nome: req.session.nome, num: req.cookies.random_num });
+    res.render('index', {
+        nome: req.session.nome,
+        num: req.cookies.random_num,
+        contador: contador,
+        total: reqs_total,
+        user: req.session.count
+    });
 
 });
 
@@ -38,9 +45,18 @@ app.post('/salvauser', (req, res) => {
 
 app.get('/random', (req, res) => {
     req.session.count += 1;
+    reqs_total++;
     if (!req.cookies.random_num) {
-        res.cookie('random_num', Math.floor(Math.random() * 1000) + 1);
+        const aleatorio = Math.floor(Math.random() * 100) + 1;
+        res.cookie('random_num', aleatorio, { maxAge: 60000 });
     }
+    res.redirect('/');
+})
+
+app.get('/contador', (req, res) => {
+    req.session.count += 1;
+    reqs_total++;
+    contador = true;
     res.redirect('/');
 })
 

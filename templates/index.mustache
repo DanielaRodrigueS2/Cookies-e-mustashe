@@ -18,7 +18,45 @@
             {{#num}}
             <p>Número aleatório: {{num}}</p>
             {{/num}}
+            <button id="botao2">Exibir Contadores</button><br>
+            {{#contador}}
+            <p>Contador Usuario : {{user}} Contador total : {{total}}</p>
+            {{/contador}}
         {{/nome}}
+
+        <script>
+            document.getElementById('botao').addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/random', {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        location.reload();
+                    } 
+                    else {
+                        console.error('Erro ao gerar número aleatório');
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar requisição:', error);
+                }
+            });
+
+            document.getElementById('botao2').addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/contador', {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        location.reload();
+                    } 
+                    else {
+                        console.error('Erro ao gerar contador');
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar requisição:', error);
+                }
+            });
+        </script>
 
     </body>
 </html>
